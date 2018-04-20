@@ -1,0 +1,5 @@
+Team1:2
+Team3 : 3
+Team2: 11
+Team6: 1
+ Team4: 33

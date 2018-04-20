@@ -1,9 +1,22 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TournamentBracket {
 
-	public static void Main(String[] args) {
-		List<Challenger> challengers=readFile(args[0]);
+	public static void main(String[] args) {
+		List<Challenger> challengers;
+		try {
+			challengers = readFile(args[0]);
+		} catch (Exception e) {
+			System.out.println("Invalid file path.");
+			e.printStackTrace();
+			return;
+		}
 		TournamentBracket bracket=new TournamentBracket(challengers);
 	}
 	
@@ -13,6 +26,7 @@ public class TournamentBracket {
 	
 	public TournamentBracket(List<Challenger> challengers) {
 		chals=challengers;
+		numOfChallengers=chals.size();
 	}
 
 	
@@ -22,16 +36,35 @@ public class TournamentBracket {
 	
 	
 	
-	public static List<Challenger> readFile(String fileName) {
+	/** Currently expects information to be in format Name:Seed, !although I expect it to change.!
+	 * (Doing so should not be hard.)
+	 * Reads the information on a file and returns a list of Challenger objects
+	 * with information as shown on the file.
+	 * 
+	 * @param fileName path to the file to be read.
+	 * @return List of all challengers.
+	 * @throws IOException if fileName is invalid path.
+	 */
+	public static List<Challenger> readFile(String fileName) throws IOException {
 		//Heyo copied from last assignment
 	    // get stream
-		Stream<String> dictData = Files.lines(Paths.get(filepath)); 
+		Stream<String> chalData = Files.lines(Paths.get(fileName)); 
 		// remove all empty strings
-		dictData = dictData.filter(x -> x != null && !x.trim().equals("")); 
+		chalData = chalData.filter(x -> x != null && !x.trim().equals("")); 
 		// all words upper case and trimmed
-		dictData = dictData.map(String::trim); 
+		List<String> challengers = chalData.collect(Collectors.toList());
+		chalData.close(); //Yes, it is closed. Screw you eclipse.
 		
+		ArrayList<Challenger> retrn=new ArrayList<Challenger>();
+		String[] f;//Get arrays to store information
+		for(String info:challengers) {
+			f=info.split(":");//Separate input into name and seed.
+			retrn.add(new Challenger(f[0].trim(),Integer.parseInt(f[1].trim())));
+		}
 		
-		return dictData;
+		for(Challenger c:retrn) {//Test for correct output
+			System.out.println(c.getName()+" "+c.getSeed());
+		}
+		return retrn;
 	}
 }
