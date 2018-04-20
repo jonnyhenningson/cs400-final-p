@@ -1,4 +1,4 @@
-public class Challenger {
+public class Challenger implements Comparable<Challenger> {
 
 	private int seed = -1;
 	private String name = null;
@@ -22,6 +22,13 @@ public class Challenger {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	
+	@Override
+	public int compareTo(Challenger c) {
+		return (seed>c.getSeed()) ? 1:((seed==c.getSeed()) ? 0:-1);
+		
 	}
 
 }
