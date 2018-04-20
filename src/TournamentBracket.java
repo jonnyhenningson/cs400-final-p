@@ -6,50 +6,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import java.util.Observable;
-import javafx.application.Application;
-import javafx.collections.FXCollections;
 
 
 
-public class TournamentBracket extends Application {
+public class TournamentBracket {
 
-	public static void main(String[] args) {
-		List<Challenger> challengers;
-		try {
-			challengers = readFile(args[0]);
-		} catch (Exception e) {
-			System.out.println("Invalid file path.");
-			e.printStackTrace();
-			return;
-		}
-		TournamentBracket bracket=new TournamentBracket(challengers);
-		launch(args);
-	}
+	
 	
 	
 	private int numOfChallengers=0; //Total number of challengers. Nessesary?
 	private List<Challenger> chals; //List of all challengers present for tournament
 	
 	public TournamentBracket(List<Challenger> challengers) {
-		super();
 		chals=challengers;
 		numOfChallengers=chals.size();
 	}
-
-
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
-		primaryStage.setTitle("Tournament Bracket");
-		primaryStage.show();
-
-		
+	
+	public List<Challenger> getChals() {
+		return chals;
 	}
-	
-	
+
+
 	/** Currently expects information to be in format Name:Seed, !although I expect it to change.!
 	 * (Doing so should not be hard.)
 	 * Reads the information on a file and returns a list of Challenger objects
