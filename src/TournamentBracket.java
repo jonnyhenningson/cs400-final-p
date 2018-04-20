@@ -6,7 +6,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TournamentBracket {
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.util.Observable;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+
+
+
+public class TournamentBracket extends Application {
 
 	public static void main(String[] args) {
 		List<Challenger> challengers;
@@ -18,6 +26,7 @@ public class TournamentBracket {
 			return;
 		}
 		TournamentBracket bracket=new TournamentBracket(challengers);
+		launch(args);
 	}
 	
 	
@@ -25,15 +34,20 @@ public class TournamentBracket {
 	private List<Challenger> chals; //List of all challengers present for tournament
 	
 	public TournamentBracket(List<Challenger> challengers) {
+		super();
 		chals=challengers;
 		numOfChallengers=chals.size();
 	}
 
-	
-	
-	
-	
-	
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+		primaryStage.setTitle("Tournament Bracket");
+		primaryStage.show();
+
+		
+	}
 	
 	
 	/** Currently expects information to be in format Name:Seed, !although I expect it to change.!
@@ -67,4 +81,6 @@ public class TournamentBracket {
 		}
 		return retrn;
 	}
+
+
 }
