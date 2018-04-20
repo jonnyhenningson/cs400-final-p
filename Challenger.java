@@ -1,8 +1,12 @@
 
 public class Challenger {
 
-	public Challenger() {
-		// TODO Auto-generated constructor stub
+	private int seed = -1;
+	private String name = null;
+
+	public Challenger(String name, int seed) {
+		this.seed = seed;
+		this.name = name;
 	}
 
 }
