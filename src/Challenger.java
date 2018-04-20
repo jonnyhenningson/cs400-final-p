@@ -1,4 +1,3 @@
-
 public class Challenger {
 
 	private int seed = -1;

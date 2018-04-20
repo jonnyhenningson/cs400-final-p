@@ -1,8 +1,9 @@
+import java.util.List;
 
 public class TournamentBracket {
 
 	public static void Main(String[] args) {
-		List<Challenger> challengers=readFile(String fileName);
+		List<Challenger> challengers=readFile(args[0]);
 		TournamentBracket bracket=new TournamentBracket(challengers);
 	}
 	
@@ -21,7 +22,7 @@ public class TournamentBracket {
 	
 	
 	
-	public List<Challenger> readFile(String fileName) {
+	public static List<Challenger> readFile(String fileName) {
 		//Heyo copied from last assignment
 	    // get stream
 		Stream<String> dictData = Files.lines(Paths.get(filepath)); 
