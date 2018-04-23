@@ -1,3 +1,5 @@
+package application;
+
 public class Challenger implements Comparable<Challenger> {
 
 	private int seed = -1;
