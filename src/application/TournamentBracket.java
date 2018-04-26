@@ -9,21 +9,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
-
-
-public class TournamentBracket {
-	
-	private int numOfChallengers=0; //Total number of challengers. Nessesary?
+public class TournamentBracket 
+{
+    private int numOfChallengers = 0; //Total number of challengers. Nessesary?
 	private List<Challenger> chals; //List of all challengers present for tournament
 	
-	public TournamentBracket(List<Challenger> challengers) {
-		chals=challengers;
+	public TournamentBracket(List<Challenger> challengers) 
+	{
+		chals = challengers;
 		Collections.sort(chals);
-		numOfChallengers=chals.size();
+		numOfChallengers = chals.size();
 	}
 	
-	public List<Challenger> getChals() {
+	public List<Challenger> getChals() 
+	{
 		return chals;
 	}
 
@@ -37,7 +36,8 @@ public class TournamentBracket {
 	 * @return List of all challengers.
 	 * @throws IOException if fileName is invalid path.
 	 */
-	public static List<Challenger> readFile(String fileName) throws IOException {
+	public static List<Challenger> readFile(String fileName) throws IOException 
+	{
 		//Heyo copied from last assignment
 	    // get stream
 		Stream<String> chalData = Files.lines(Paths.get(fileName)); 
@@ -47,18 +47,19 @@ public class TournamentBracket {
 		List<String> challengers = chalData.collect(Collectors.toList());
 		chalData.close(); //Yes, it is closed. Screw you eclipse.
 		
-		ArrayList<Challenger> retrn=new ArrayList<Challenger>();
-		int i=0;
-		for(String info:challengers) {
-			retrn.add(new Challenger(info.trim(),i));
+		ArrayList<Challenger> retrn = new ArrayList<Challenger>();
+		int i = 0;
+		for(String info : challengers) 
+		{
+			retrn.add(new Challenger(info.trim(), i));
 			i++;
 		}
 		
-		for(Challenger c:retrn) {//Test for correct output
-			System.out.println(c.getName()+" "+c.getSeed());
+		for(Challenger c : retrn) 
+		{   //Test for correct output
+			System.out.println(c.getName() + " " + c.getSeed());
 		}
+		
 		return retrn;
 	}
-
-
 }
