@@ -48,10 +48,10 @@ public class TournamentBracket {
 		chalData.close(); //Yes, it is closed. Screw you eclipse.
 		
 		ArrayList<Challenger> retrn=new ArrayList<Challenger>();
-		String[] f;//Get arrays to store information
+		int i=0;
 		for(String info:challengers) {
-			f=info.split(":");//Separate input into name and seed.
-			retrn.add(new Challenger(f[0].trim(),Integer.parseInt(f[1].trim())));
+			retrn.add(new Challenger(info.trim(),i));
+			i++;
 		}
 		
 		for(Challenger c:retrn) {//Test for correct output

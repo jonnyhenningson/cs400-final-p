@@ -1,5 +1,16 @@
-Team1:2
-Team3 : 3
-Team2: 11
-Team6: 1
- Team4: 33
+Team1
+Team3
+Team6
+ Team4
+Team7 
+Team10
+Team5
+TeamWithReallyLongName
+Team1
+Team3
+Team6
+ Team4
+Team7 
+Team10
+Team5
+TeamWithReallyLongName
