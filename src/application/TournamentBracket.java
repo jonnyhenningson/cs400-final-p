@@ -38,17 +38,17 @@ public class TournamentBracket
 	 */
 	public static List<Challenger> readFile(String fileName) throws IOException 
 	{
-		//Heyo copied from last assignment
 	    // get stream
 		Stream<String> chalData = Files.lines(Paths.get(fileName)); 
 		// remove all empty strings
 		chalData = chalData.filter(x -> x != null && !x.trim().equals("")); 
-		// all words upper case and trimmed
+		// converts stream to a String list of Challengers
 		List<String> challengers = chalData.collect(Collectors.toList());
-		chalData.close(); //Yes, it is closed. Screw you eclipse.
+		chalData.close(); 
 		
 		ArrayList<Challenger> retrn = new ArrayList<Challenger>();
 		int i = 0;
+		
 		for(String info : challengers) 
 		{
 			retrn.add(new Challenger(info.trim(), i));
