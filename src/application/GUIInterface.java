@@ -20,6 +20,7 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -41,12 +42,17 @@ import javafx.scene.text.Text;
  */
 public class GUIInterface extends Application 
 {
-	private static TournamentBracket bracket;//TournamentBracket that holds list of challengers
-	private Stage theStage;//Stage that the GUI shows up on
-	private GridPane pane;//Grid that all the elements in the Stage are held in
-	private int chalNum = 0;//Number of challengers
+    // TournamentBracket that holds list of challengers
+	private static TournamentBracket bracket;
+	// Stage that the GUI shows up on
+	private Stage theStage;
+	// GridPane that holds all of the elements in the Stage
+	private GridPane pane;
+	// number of challengers
+	private int chalNum = 0;
+	// list of all challengers, used to find where to advance and find third place finisher
 	private ArrayList<HBox> allHBoxes = new ArrayList<HBox>(16);
-	//List of all challengers, used to find where to advance and find third place finisher
+	
 	
 	/** Main method that runs the program, taking in the test file, parsing it for elements,
 	 * and launching the GUI.
@@ -54,11 +60,13 @@ public class GUIInterface extends Application
 	 */
 	public static void main(String[] args) 
 	{
+	    // stores the list of Challengers in the bracket
 		List<Challenger> challengers;
 		
 		try 
-		{//Get information of teams from test file.
-			challengers = TournamentBracket.readFile("test.txt");//TODO args[0] eventually
+		{
+		    // get information of teams from test file.
+			challengers = TournamentBracket.readFile("test.txt"); // TODO args[0] eventually
 		} 
 		catch (Exception e) 
 		{
@@ -66,189 +74,210 @@ public class GUIInterface extends Application
 			e.printStackTrace();
 			return;
 		}
-		
-		bracket = new TournamentBracket(challengers);// Make the tournament bracket
-		launch(args);//Method that creates the GUIInterface object.
+		// create a new TournamentBracket object using the list of Challengers
+		bracket = new TournamentBracket(challengers);
+		// creates the GUIInterface object.
+		launch(args);
 		
 		//GUI.displayChampions(challengers.get(0), challengers.get(1), challengers.get(2));
 	}
 	
-	/** Method ran by the Application constructor where you build the GUI page and stuff.
+	/** Method ran by the Application constructor that builds the GUI page
 	 * 
-	 * @param primaryStage the primary stage things are displayed in
-	 */
-	/* (non-Javadoc)
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 * @param primaryStage the primary stage things are displayed in
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception 
 	{
-		//Set instance variables and stuff
+		// initializes theStage field
 		theStage = primaryStage;
 		theStage.setTitle("Tournament Bracket");
+		// initializes the pane field
 		pane = new GridPane();
+		pane.setPadding(new Insets(10, 10, 10, 10));
+        pane.setVgap(10);
+        pane.setHgap(10);
+		// creates a new scene containing pane
 		Scene scene = new Scene(pane, 2000, 1000, Color.DARKGRAY);
+		
+		// utilizes a ScrollPane object to make the GUI scrollable
+		VBox root = new VBox();
+        ScrollPane scroll = new ScrollPane();
+        scroll.setContent(pane);
+        root.getChildren().addAll(scroll);
+        scene.setRoot(root);
+		
+        // stores a list of the challengers in the bracket
 		List<Challenger> chals = bracket.getChals();
+		// stores the number of challengers in the bracket
 		chalNum = chals.size();
 		
-		if(chalNum <= 1) //Case where are 0 or 1 challengers
+		// case where there are 0 or 1 challengers
+		if(chalNum <= 1) 
+        {
+            Label champion = new Label();
+            champion.setAlignment(Pos.CENTER);
+            champion.setMinWidth(75);
+            
+            // if there are 0 challengers, display that no teams were entered
+            if(chalNum == 0) 
+            {
+                champion.setText("No Teams, No Champion.");
+            } 
+            // if there is only 1 challenger, display that that one team won
+            else 
+            { 
+                champion.setText("Tournament Champion: " + chals.get(0).getName());
+            }
+            GridPane.setConstraints(champion, 0, 0);
+            pane.getChildren().add(champion);
+        }
+		// checks for an even number of teams
+        else if(chalNum % 2 != 0)
+        {
+            Label unevenTeams = new Label();
+            unevenTeams.setText("ERROR: The number of challengers must be a power of 2.");
+            unevenTeams.setAlignment(Pos.CENTER);
+            unevenTeams.setMinWidth(75);
+            GridPane.setConstraints(unevenTeams, 0, 0);
+            pane.getChildren().add(unevenTeams);
+        }	
+		// case where there are more than 1 challengers
+		else
 		{
-			Label champion = new Label();
-	        champion.setAlignment(Pos.CENTER);
-	        champion.setMinWidth(250);
-			champion.setText(" Tournament Champion ");
-			
-			Label championName = new Label();
-	        champion.setAlignment(Pos.CENTER);
-			championName.setMinWidth(250);
-			
-			if(chalNum == 0) 
-			{//If 0 challengers, display that no teams were entered.
-				championName.setText("No teams entered.");
-			} else	{//If 1, display that that one team won.
-				championName.setText(chals.get(0).getName());
-			}
-			
-			VBox vbox = new VBox(10);
-			vbox.getChildren().add(champion);
-			vbox.getChildren().add(championName);
-			pane.add(vbox, 0, 0);
-		}		
-		else if(chalNum > 1) //Case where >1 challengers
-		{
+		    // creates the first line of matches, with chalNum teams facing off
 			for(int i = 0; i < chalNum / 2; i++) 
-			{ //Create first line of matches, with chalNum teams facing off.
+			{ 
 				Label name1 = new Label();
 				name1.setAlignment(Pos.CENTER);
-				name1.setMinWidth(100);
+				name1.setMinWidth(75);
 				name1.setText(chals.get(i).getName());
 				
 				Label name2 = new Label();
 				name2.setAlignment(Pos.CENTER);
-				name2.setMinWidth(100);
+				name2.setMinWidth(75);
 				name2.setText(chals.get(chalNum - i-1).getName());
-				
-				Label blank = new Label();
-				blank.setText(null);//formatting
 				
 				TextField score1 = new TextField();
 				score1.setMaxHeight(20); 
-				score1.setMaxWidth(100);
+				score1.setMaxWidth(90);
 				score1.setPromptText("Input Score");
-				score1.setFocusTraversable(false);
+//				score1.setFocusTraversable(false);
 				
 				TextField score2 = new TextField();
 				score2.setMaxHeight(20); 
-				score2.setMaxWidth(100);
+				score2.setMaxWidth(90);
 				score2.setPromptText("Input Score");
-				score2.setFocusTraversable(false);
-				
-				Button button = new Button("Submit");
-				//information for button set below
+//				score2.setFocusTraversable(false);
 				
 				HBox hbox1 = new HBox(10);
-				hbox1.getChildren().add(name1);
-				hbox1.getChildren().add(score1);
-				
-				HBox hbox2 = new HBox(10);
-				hbox2.getChildren().add(name2);
-				hbox2.getChildren().add(score2);
-				hbox2.getChildren().add(button);
-				
-				//Add new hboxes to the list of all hboxes (in order)
-				allHBoxes.add(hbox1);
-				allHBoxes.add(hbox2);
-				
-				VBox vbox = new VBox(10);
-				vbox.getChildren().add(hbox1);
-				vbox.getChildren().add(hbox2);
-				vbox.getChildren().add(blank);
-				
+                hbox1.getChildren().addAll(name1, score1);
+                
+                HBox hbox2 = new HBox(10);
+                hbox2.getChildren().addAll(name2, score2);
+                
+                // adds new HBoxes to the list of all HBoxes (in order)
+                allHBoxes.add(hbox1);
+                allHBoxes.add(hbox2);
+                
+				Button button = new Button("Submit");
+				button.setAlignment(Pos.CENTER);
+                button.setMinWidth(75);
 				button.setOnAction(new EventHandler<ActionEvent>() 
-				{//This is the lambda expression thing.
+				{
+				    // lambda expression used to create an instance of EvenHandler
 					@Override
-					public void handle(ActionEvent event) //Do we need to annotate the top of this?
+					public void handle(ActionEvent event)
 					{
 						//System.out.println(score1.getText() + " " + score2.getText());
 						if(name1.getText().equals("TBD") || name2.getText().equals("TBD")) 
 						{
-							System.out.println("Not all teams are present yet");//this is just a print statement
-							return;//If one of the teams in the match is not actually a team, it won't do anything.
+							System.out.println("Not all teams are present yet"); // this is just a print statement
+							return;// If one of the teams in the match is not actually a team, it won't do anything.
 						}
+						// tries to parse scores, if it can't it won't do anything
 						try 
-						{//Try to parse scores. If it can't it won't do anything.
+						{   
+						    // if team1 has higher score, they advance
 							if(Integer.parseInt(score1.getText()) > Integer.parseInt(score2.getText())) 
-							{//If team1 has higher score, they advance.
+							{
 								System.out.println("Team " + name1.getText() + " won.");
 								advanceVictor(name1.getText(), allHBoxes.indexOf(hbox1));
 							} 
+							// if team2 has higher score, they advance
 							else 
-							{//if team2 has higher score, they advance.
+							{
 								System.out.println("Team " + name2.getText() + " won.");
 								advanceVictor(name2.getText(), allHBoxes.indexOf(hbox2));
 							}
 						}
+						// case when the score could not be parsed
 						catch(NumberFormatException e) 
-						{//case for could not parse score
+						{
 							System.out.println("Invalid input.");
-							//button.setText("Invalid score");
+							// button.setText("Invalid score");
 							return;
 						}
 					}
 				});
-			
-				pane.add(vbox, 0, i);
+				
+				VBox vbox = new VBox(10);
+                vbox.getChildren().addAll(hbox1, button, hbox2);
+                
+                GridPane.setConstraints(vbox, 0, i);
+                pane.getChildren().add(vbox);
 			}
 			
 			int n = 4;
+			
+			// sets up all the remaining rows of matches
 			for(int i = 0; i < Math.log(chalNum); i++) 
-			{//This is for setting up all the remaining rows of matches
+			{
 				for(int j = 0; j < chalNum / n; j++) 
 				{
 					Label name1 = new Label();
 					name1.setAlignment(Pos.CENTER);
-					name1.setMinWidth(60);
+					name1.setMinWidth(75);
 					name1.setText("TBD");
 					
 					Label name2 = new Label();
 					name2.setAlignment(Pos.CENTER);
-					name2.setMinWidth(60);
+					name2.setMinWidth(75);
 					name2.setText("TBD");
 					
-					Label blank = new Label();
-					blank.setText(null);
+//					Label blank = new Label();
+//					blank.setText(null);
 					
 					TextField score1 = new TextField();
 					score1.setMaxHeight(20); 
-					score1.setMaxWidth(100);
+					score1.setMaxWidth(90);
 					score1.setPromptText("Input Score");
-					score1.setFocusTraversable(false);
+//					score1.setFocusTraversable(false);
 					
 					TextField score2 = new TextField();
 					score2.setMaxHeight(20); 
-					score2.setMaxWidth(100);
+					score2.setMaxWidth(90);
 					score2.setPromptText("Input Score");
-					score2.setFocusTraversable(false);
-					
-					Button button = new Button("Submit");
+//					score2.setFocusTraversable(false);
 					
 					HBox hbox1 = new HBox(10);
-					hbox1.getChildren().add(name1);
-					hbox1.getChildren().add(score1);
-					
-					HBox hbox2 = new HBox(10);
-					hbox2.getChildren().add(name2);
-					hbox2.getChildren().add(score2);
-					hbox2.getChildren().add(button);
-					
-					allHBoxes.add(hbox1);
-					allHBoxes.add(hbox2);
-					
+                    hbox1.getChildren().addAll(name1, score1);
+                    
+                    HBox hbox2 = new HBox(10);
+                    hbox2.getChildren().addAll(name2, score2);
+                    
+                    allHBoxes.add(hbox1);
+                    allHBoxes.add(hbox2);
+                    
+					Button button = new Button("Submit");
+					button.setAlignment(Pos.CENTER);
+	                button.setMinWidth(75);
 					button.setOnAction(new EventHandler<ActionEvent>() 
 					{
-						//This is exactly the same as the above one.
+					    // lambda expression used to create an instance of EvenHandler
 						@Override
-						public void handle(ActionEvent event) //Do we need to annotate the top of this?
+						public void handle(ActionEvent event) // Do we need to annotate the top of this?
 						{
 							//System.out.println(score1.getText() + " " + score2.getText());
 							if(name1.getText().equals("TBD") || name2.getText().equals("TBD")) 
@@ -256,28 +285,36 @@ public class GUIInterface extends Application
 								System.out.println("Not all teams are present yet");//this is just a print statement
 								return;//If one of the teams in the match is not actually a team, it won't do anything.
 							}
+							// tries to parse scores, if it can't it won't do anything
 							try 
-							{//Try to parse scores. If it can't it won't do anything.
+							{
+							    // if team1 has higher score, they advance
 								if(Integer.parseInt(score1.getText()) > Integer.parseInt(score2.getText())) 
-								{//If team1 has higher score, they advance.
+								{
 									System.out.println("Team " + name1.getText() + " won.");
 									advanceVictor(name1.getText(), allHBoxes.indexOf(hbox1));
 								} 
+								// if team2 has higher score, they advance
 								else 
-								{//if team2 has higher score, they advance.
+								{
 									System.out.println("Team " + name2.getText() + " won.");
 									advanceVictor(name2.getText(), allHBoxes.indexOf(hbox2));
 								}
 							}
+							// case when the score could not be parsed
 							catch(NumberFormatException e) 
-							{//case for could not parse score
+							{
 								System.out.println("Invalid input.");
 								//button.setText("Invalid score");
 								return;
 							}}
 					});
 					
-		            VBox vbox = new VBox(10);
+					VBox vbox = new VBox(10);
+                    vbox.getChildren().addAll(hbox1, button, hbox2);
+                    
+                    GridPane.setConstraints(vbox, i + 1, j);
+                    pane.getChildren().add(vbox);
 					
 	//				if(j == 0) {
 	//					Label upperBlank = new Label();
@@ -285,18 +322,18 @@ public class GUIInterface extends Application
 	//					upperBlank.setMinHeight((i + 2) * 120);
 	//					vbox.getChildren().add(upperBlank);
 	//				}
-					
-					vbox.getChildren().add(hbox1);
-					vbox.getChildren().add(hbox2);
-					vbox.getChildren().add(blank);
-					
-					pane.add(vbox, i + 1, j);
+//					
+//					vbox.getChildren().add(hbox1);
+//					vbox.getChildren().add(hbox2);
+//					vbox.getChildren().add(blank);
+//					
+//					pane.add(vbox, i + 1, j);
 				}
 				n = n * 2;
 			}
 		}
 
-		//proof of concept button to show champions. NOT IMPLIMENTED, JUST AN EXAMPLE.
+		// proof of concept button to show champions. NOT IMPLIMENTED, JUST AN EXAMPLE.
 		VBox vbox = new VBox(10);
 		Button finalButton = new Button("Show Champions");
 		
@@ -304,7 +341,8 @@ public class GUIInterface extends Application
 		{
 			@Override
 			public void handle(ActionEvent event) 
-			{//currently just displays first 3 teams, which is why it crashes.
+			{    
+			    //currently just displays first 3 teams, which is why it crashes.
 				displayChampions(chals.get(0), chals.get(1), chals.get(2));
 			}
 		});
@@ -312,7 +350,9 @@ public class GUIInterface extends Application
 		pane.add(finalButton, chalNum + 3, 0);
 		
 		if(chalNum != 0)
-			pane.add(vbox, (int) Math.log(chalNum) + 2, 0);
+        {
+            pane.add(vbox, (int) Math.log(chalNum) + 2, 0);
+        }
 	
 		theStage.setScene(scene);
 		theStage.show();
@@ -325,9 +365,12 @@ public class GUIInterface extends Application
 	 */
 	public void advanceVictor(String winner, int boxID) 
 	{
-		if(chalNum == 16) //Case for 16 teams in total
+	  // case for when there are 16 challengers
+		if(chalNum == 16) 
 		{
-			if(boxID < 16) {//calculations to find where to advance
+		    // calculations to find where to advance
+			if(boxID < 16) 
+			{
 				boxID /= 2;
 				boxID += 16;
 			}
@@ -345,13 +388,15 @@ public class GUIInterface extends Application
 			}
 			else if(boxID >= 28)
 			{
-				return;//THIS MEANS IT WAS CHAMPIONSHIP MATCH; NOT IMPLIMENTED
+				return; //THIS MEANS IT WAS CHAMPIONSHIP MATCH; NOT IMPLIMENTED
 			}
 		}
-		else if(chalNum == 8) //case for 8 teams
+		// case for when there are 8 challengers
+		else if(chalNum == 8) 
 		{
+		    // calculations to find where to advance
 			if(boxID < 8) 
-			{//calculations to find where to advance
+			{
 				boxID /= 2;
 				boxID += 8;
 			}
@@ -363,31 +408,35 @@ public class GUIInterface extends Application
 			}
 			else if(boxID >= 12)
 			{
-				return;//THIS MEANS IT WAS CHAMPIONSHIP MATCH; NOT IMPLIMENTED
+				return; //THIS MEANS IT WAS CHAMPIONSHIP MATCH; NOT IMPLIMENTED
 			}
 		} 
-		else if (chalNum == 4) //case for 4 teams
+		// case for when there are 4 challengers
+		else if (chalNum == 4) 
 		{
+		    // calculations to find where to advance
 			if(boxID < 4) 
-			{//calculations to find where to advance
+			{
 				boxID /= 2;
 				boxID += 4;
 			} 
 			else if (boxID >= 4)
 			{
-				return;//THIS MEANS IT WAS CHAMPIONSHIP MATCH; NOT IMPLIMENTED
+				return; //THIS MEANS IT WAS CHAMPIONSHIP MATCH; NOT IMPLIMENTED
 			}
 		} 
-		else if (chalNum == 2) //case for 2 teams
+		// case for when there are 2 challengers
+		else if (chalNum == 2) 
 		{
-			return;//THIS MEANS IT WAS CHAMPIONSHIP MATCH; NOT IMPLIMENTED
+			return; //THIS MEANS IT WAS CHAMPIONSHIP MATCH; NOT IMPLIMENTED
 		}
-		else {
-			//This should never occur
+		else 
+		{
+			// this should never occur
 		}
 		
-		Label l = (Label) allHBoxes.get(boxID).getChildren().get(0);//I don't like casts, but it works.
-		l.setText(winner);// I could change it to <Label> not <HBox> to fix it actually, but
+		Label l = (Label) allHBoxes.get(boxID).getChildren().get(0); // I don't like casts, but it works.
+		l.setText(winner); // I could change it to <Label> not <HBox> to fix it actually, but
 		// it might be useful later so I wont now
 		
 		// CHANGE TO .get(1) TO GET THE CORRESPONDING TEXT BOX
