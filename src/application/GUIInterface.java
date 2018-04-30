@@ -14,6 +14,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -52,6 +53,9 @@ public class GUIInterface extends Application
 	private int chalNum = 0;
 	// list of all challengers, used to find where to advance and find third place finisher
 	private ArrayList<HBox> allHBoxes = new ArrayList<HBox>(16);
+	private String first;
+	private String second;
+	private String third;
 	
 	
 	/** Main method that runs the program, taking in the test file, parsing it for elements,
@@ -343,7 +347,7 @@ public class GUIInterface extends Application
 			public void handle(ActionEvent event) 
 			{    
 			    //currently just displays first 3 teams, which is why it crashes.
-				displayChampions(chals.get(0), chals.get(1), chals.get(2));
+				displayChampions(first, second, third);
 			}
 		});
 		
@@ -388,6 +392,39 @@ public class GUIInterface extends Application
 			}
 			else if(boxID >= 28)
 			{
+			    first = ((Label) allHBoxes.get(boxID).getChildren().get(0)).getText();
+			    int size = allHBoxes.size();
+			    if(!((Label) allHBoxes.get(allHBoxes.size()-1).getChildren().get(0)).getText().equals(first))
+			    {
+			        second = ((Label) allHBoxes.get(allHBoxes.size()-1).getChildren().get(0)).getText();
+			    }
+			    else
+			    {
+			        second = ((Label) allHBoxes.get(allHBoxes.size()-2).getChildren().get(0)).getText();
+			    }
+			    
+			    ArrayList<HBox> thirdOptions = new ArrayList<HBox>();
+			    for(int n = 6; n > 2; n--)
+			    {
+			        if(((Label) allHBoxes.get(size-n).getChildren().get(0)).getText().equals(first) ||
+			           ((Label) allHBoxes.get(size-n).getChildren().get(0)).getText().equals(second))
+			        {
+			            continue;
+			        }
+			        else
+			        {
+			            thirdOptions.add(allHBoxes.get(size-n));
+			        }
+			    }
+			    if(Integer.parseInt((((TextField) thirdOptions.get(0).getChildren().get(1)).getText())) > 
+			       Integer.parseInt((((TextField) thirdOptions.get(1).getChildren().get(1)).getText())))
+			    {
+			        third = ((Label) thirdOptions.get(0).getChildren().get(0)).getText();
+			    }
+			    else
+			    {
+			        third = ((Label) thirdOptions.get(1).getChildren().get(0)).getText();
+			    }
 				return; //THIS MEANS IT WAS CHAMPIONSHIP MATCH; NOT IMPLIMENTED
 			}
 		}
@@ -455,43 +492,44 @@ public class GUIInterface extends Application
 	 * @param secondC Second place team
 	 * @param thirdC Third place team
 	 */
-	public void displayChampions(Challenger champ, Challenger secondC, Challenger thirdC) {
+	public void displayChampions(String first, String second, String third) 
+	{
 		Label champion = new Label();
         champion.setAlignment(Pos.CENTER);
         champion.setMinWidth(250);
 		champion.setText(" Tournament Champion ");
 		
 		Label championName = new Label();
-        champion.setAlignment(Pos.CENTER);
+        championName.setAlignment(Pos.CENTER);
 		championName.setMaxWidth(250);		
-		championName.setText(champ.getName());
+		championName.setText(first);
 	
-		Label second = new Label();
-        second.setAlignment(Pos.CENTER);
-        second.setMinWidth(250);
-		second.setText(" Second Place ");
+		Label secondPlace = new Label();
+        secondPlace.setAlignment(Pos.CENTER);
+        secondPlace.setMinWidth(250);
+		secondPlace.setText(" Second Place ");
 		
 		Label secondName = new Label();
-        second.setAlignment(Pos.CENTER);
+        secondName.setAlignment(Pos.CENTER);
 		secondName.setMaxWidth(250);		
-		secondName.setText(secondC.getName());
+		secondName.setText(second);
 		
-		Label third = new Label();
-        third.setAlignment(Pos.CENTER);
-        third.setMinWidth(250);
-		third.setText(" Third Place ");
+		Label thirdPlace = new Label();
+        thirdPlace.setAlignment(Pos.CENTER);
+        thirdPlace.setMinWidth(250);
+		thirdPlace.setText(" Third Place ");
 		
 		Label thirdName = new Label();
-        third.setAlignment(Pos.CENTER);
+        thirdName.setAlignment(Pos.CENTER);
 		thirdName.setMaxWidth(250);		
-		thirdName.setText(thirdC.getName());
+		thirdName.setText(third);
 		
 		VBox vbox = new VBox(10);
 		vbox.getChildren().add(champion);
 		vbox.getChildren().add(championName);
-		vbox.getChildren().add(second);
+		vbox.getChildren().add(secondPlace);
 		vbox.getChildren().add(secondName);
-		vbox.getChildren().add(third);
+		vbox.getChildren().add(thirdPlace);
 		vbox.getChildren().add(thirdName);
 		
 		pane.add(vbox, chalNum + 3, 2);
