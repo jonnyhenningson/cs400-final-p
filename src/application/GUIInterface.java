@@ -392,30 +392,39 @@ public class GUIInterface extends Application
 			}
 			else if(boxID >= 28)
 			{
+			    // first place is in the HBox found at the index of boxID in allHBoxes
 			    first = ((Label) allHBoxes.get(boxID).getChildren().get(0)).getText();
-			    int size = allHBoxes.size();
+			    
+			    // if the last HBox in allHBoxes isn't the same as first, then it is second
 			    if(!((Label) allHBoxes.get(allHBoxes.size()-1).getChildren().get(0)).getText().equals(first))
 			    {
 			        second = ((Label) allHBoxes.get(allHBoxes.size()-1).getChildren().get(0)).getText();
 			    }
+			    // otherwise, second is the second to last HBox in allHBoxes
 			    else
 			    {
 			        second = ((Label) allHBoxes.get(allHBoxes.size()-2).getChildren().get(0)).getText();
 			    }
 			    
+			    // stores all of the HBoxes that could be the third place finisher
 			    ArrayList<HBox> thirdOptions = new ArrayList<HBox>();
+			    // iterates over the final four round to search for the challenger that took third
 			    for(int n = 6; n > 2; n--)
 			    {
-			        if(((Label) allHBoxes.get(size-n).getChildren().get(0)).getText().equals(first) ||
-			           ((Label) allHBoxes.get(size-n).getChildren().get(0)).getText().equals(second))
+			        // if the HBox is already either first or second, it cannot be third
+			        if(((Label) allHBoxes.get(allHBoxes.size()-n).getChildren().get(0)).getText().equals(first) ||
+			           ((Label) allHBoxes.get(allHBoxes.size()-n).getChildren().get(0)).getText().equals(second))
 			        {
 			            continue;
 			        }
+			        // all other HBoxes could potentially be the third place finisher
 			        else
 			        {
-			            thirdOptions.add(allHBoxes.get(size-n));
+			            thirdOptions.add(allHBoxes.get(allHBoxes.size()-n));
 			        }
 			    }
+			    // checks which third place option scored the most points in the final four round  
+			    // and assigns the highest scoring challenger to be the third place finisher
 			    if(Integer.parseInt((((TextField) thirdOptions.get(0).getChildren().get(1)).getText())) > 
 			       Integer.parseInt((((TextField) thirdOptions.get(1).getChildren().get(1)).getText())))
 			    {
