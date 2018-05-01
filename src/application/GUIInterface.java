@@ -390,52 +390,10 @@ public class GUIInterface extends Application
 				boxID /= 2;
 				boxID += 28;
 			}
-			// This means it was a championship match
+			// this means it was a championship match
 			else if(boxID >= 28)
 			{
-			    // first place is in the HBox found at the index of boxID in allHBoxes
-			    first = ((Label) allHBoxes.get(boxID).getChildren().get(0)).getText();
-			    
-			    // if the last HBox in allHBoxes isn't the same as first, then it is second
-			    if(!((Label) allHBoxes.get(allHBoxes.size()-1).getChildren().get(0)).getText().equals(first))
-			    {
-			        second = ((Label) allHBoxes.get(allHBoxes.size()-1).getChildren().get(0)).getText();
-			    }
-			    // otherwise, second is the second to last HBox in allHBoxes
-			    else
-			    {
-			        second = ((Label) allHBoxes.get(allHBoxes.size()-2).getChildren().get(0)).getText();
-			    }
-			    
-			    // stores all of the HBoxes that could be the third place finisher
-			    ArrayList<HBox> thirdOptions = new ArrayList<HBox>();
-			    // iterates over the final four round to search for the challenger that took third
-			    for(int n = 6; n > 2; n--)
-			    {
-			        // if the HBox is already either first or second, it cannot be third
-			        if(((Label) allHBoxes.get(allHBoxes.size()-n).getChildren().get(0)).getText().equals(first) ||
-			           ((Label) allHBoxes.get(allHBoxes.size()-n).getChildren().get(0)).getText().equals(second))
-			        {
-			            continue;
-			        }
-			        // all other HBoxes could potentially be the third place finisher
-			        else
-			        {
-			            thirdOptions.add(allHBoxes.get(allHBoxes.size()-n));
-			        }
-			    }
-			    // checks which third place option scored the most points in the final four round  
-			    // and assigns the highest scoring challenger to be the third place finisher
-			    if(Integer.parseInt((((TextField) thirdOptions.get(0).getChildren().get(1)).getText())) > 
-			       Integer.parseInt((((TextField) thirdOptions.get(1).getChildren().get(1)).getText())))
-			    {
-			        third = ((Label) thirdOptions.get(0).getChildren().get(0)).getText();
-			    }
-			    else
-			    {
-			        third = ((Label) thirdOptions.get(1).getChildren().get(0)).getText();
-			    }
-				
+			    generateChampions(boxID);			
 			    return;
 			}
 		}
@@ -454,9 +412,11 @@ public class GUIInterface extends Application
 				boxID /= 2;
 				boxID += 12;
 			}
+			// this means it was a championship match
 			else if(boxID >= 12)
 			{
-				return; //THIS MEANS IT WAS CHAMPIONSHIP MATCH; NOT IMPLIMENTED
+			    generateChampions(boxID);
+				return;
 			}
 		} 
 		// case for when there are 4 challengers
@@ -468,15 +428,34 @@ public class GUIInterface extends Application
 				boxID /= 2;
 				boxID += 4;
 			} 
+			// this means it was a championship match
 			else if (boxID >= 4)
 			{
-				return; //THIS MEANS IT WAS CHAMPIONSHIP MATCH; NOT IMPLIMENTED
+			    generateChampions(boxID);
+				return; 
 			}
 		} 
 		// case for when there are 2 challengers
 		else if (chalNum == 2) 
 		{
-			return; //THIS MEANS IT WAS CHAMPIONSHIP MATCH; NOT IMPLIMENTED
+		    // first place is in the HBox found at the index of boxID in allHBoxes
+            first = ((Label) allHBoxes.get(boxID).getChildren().get(0)).getText();
+            
+            // if the last HBox in allHBoxes isn't the same as first, then it is second
+            if(!((Label) allHBoxes.get(allHBoxes.size()-1).getChildren().get(0)).getText().equals(first))
+            {
+                second = ((Label) allHBoxes.get(allHBoxes.size()-1).getChildren().get(0)).getText();
+            }
+            // otherwise, second is the second to last HBox in allHBoxes
+            else
+            {
+                second = ((Label) allHBoxes.get(allHBoxes.size()-2).getChildren().get(0)).getText();
+            }
+            
+            // there are only two teams, so there is no third place team
+            third = "No third place team";
+			
+            return; 
 		}
 		else 
 		{
@@ -492,6 +471,60 @@ public class GUIInterface extends Application
 		// TextField t= (TextField) allHBoxes.get(boxID).getChildren().get(1);
 	}
 	
+	/**
+	 * Called from the advanceVictor method when the boxID indicates that it was a championship match. 
+	 * This method determines the names of the challengers that took first, second, and third place and 
+	 * assigns them to the respective fields.
+	 * 
+	 * @param boxID the location of the match that took place
+	 */
+	private void generateChampions(int boxID)
+	{
+	    // first place is in the HBox found at the index of boxID in allHBoxes
+        first = ((Label) allHBoxes.get(boxID).getChildren().get(0)).getText();
+        
+        // if the last HBox in allHBoxes isn't the same as first, then it is second
+        if(!((Label) allHBoxes.get(allHBoxes.size()-1).getChildren().get(0)).getText().equals(first))
+        {
+            second = ((Label) allHBoxes.get(allHBoxes.size()-1).getChildren().get(0)).getText();
+        }
+        // otherwise, second is the second to last HBox in allHBoxes
+        else
+        {
+            second = ((Label) allHBoxes.get(allHBoxes.size()-2).getChildren().get(0)).getText();
+        }
+        
+        // stores all of the HBoxes that could be the third place finisher
+        ArrayList<HBox> thirdOptions = new ArrayList<HBox>();
+        // iterates over the final four round to search for the challenger that took third
+        for(int n = 6; n > 2; n--)
+        {
+            // if the HBox is already either first or second, it cannot be third
+            if(((Label) allHBoxes.get(allHBoxes.size()-n).getChildren().get(0)).getText().equals(first) ||
+               ((Label) allHBoxes.get(allHBoxes.size()-n).getChildren().get(0)).getText().equals(second))
+            {
+                continue;
+            }
+            // all other HBoxes could potentially be the third place finisher
+            else
+            {
+                thirdOptions.add(allHBoxes.get(allHBoxes.size()-n));
+            }
+        }
+        // checks which third place option scored the most points in the final four round  
+        // and assigns the highest scoring challenger to be the third place finisher
+        if(Integer.parseInt((((TextField) thirdOptions.get(0).getChildren().get(1)).getText())) > 
+           Integer.parseInt((((TextField) thirdOptions.get(1).getChildren().get(1)).getText())))
+        {
+            third = ((Label) thirdOptions.get(0).getChildren().get(0)).getText();
+        }
+        else
+        {
+            third = ((Label) thirdOptions.get(1).getChildren().get(0)).getText();
+        }
+        
+        return;
+	}
 	
 	/** Half-implemented method for displaying champions. Mostly a proof of concept,
 	 * but usable.
@@ -503,7 +536,7 @@ public class GUIInterface extends Application
 	 * @param secondC Second place team
 	 * @param thirdC Third place team
 	 */
-	public void displayChampions(String first, String second, String third) 
+	private void displayChampions(String first, String second, String third) 
 	{
 		Label champion = new Label();
         champion.setAlignment(Pos.CENTER);
