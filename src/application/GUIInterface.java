@@ -390,6 +390,7 @@ public class GUIInterface extends Application
 				boxID /= 2;
 				boxID += 28;
 			}
+			// This means it was a championship match
 			else if(boxID >= 28)
 			{
 			    // first place is in the HBox found at the index of boxID in allHBoxes
@@ -434,7 +435,8 @@ public class GUIInterface extends Application
 			    {
 			        third = ((Label) thirdOptions.get(1).getChildren().get(0)).getText();
 			    }
-				return; //THIS MEANS IT WAS CHAMPIONSHIP MATCH; NOT IMPLIMENTED
+				
+			    return;
 			}
 		}
 		// case for when there are 8 challengers
