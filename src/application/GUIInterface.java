@@ -100,7 +100,7 @@ public class GUIInterface extends Application
 		// initializes the pane field
 		pane = new GridPane();
 		pane.setPadding(new Insets(10, 10, 10, 10));
-        pane.setVgap(10);
+        pane.setVgap(20);
         pane.setHgap(10);
 		// creates a new scene containing pane
 		Scene scene = new Scene(pane, 2000, 1000, Color.DARKGRAY);
@@ -185,9 +185,9 @@ public class GUIInterface extends Application
                 allHBoxes.add(hbox1);
                 allHBoxes.add(hbox2);
                 
-				Button button = new Button("Submit");
+				Button button = new Button("Submit Scores");
 				button.setAlignment(Pos.CENTER);
-                button.setMinWidth(75);
+                button.setMinWidth(175);
 				button.setOnAction(new EventHandler<ActionEvent>() 
 				{
 				    // lambda expression used to create an instance of EvenHandler
@@ -274,9 +274,9 @@ public class GUIInterface extends Application
                     allHBoxes.add(hbox1);
                     allHBoxes.add(hbox2);
                     
-					Button button = new Button("Submit");
+					Button button = new Button("Submit Scores");
 					button.setAlignment(Pos.CENTER);
-	                button.setMinWidth(75);
+	                button.setMinWidth(175);
 					button.setOnAction(new EventHandler<ActionEvent>() 
 					{
 					    // lambda expression used to create an instance of EvenHandler
