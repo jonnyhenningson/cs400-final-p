@@ -85,8 +85,6 @@ public class GUIInterface extends Application
 		bracket = new TournamentBracket(challengers);
 		// creates the GUIInterface object.
 		launch(args);
-		
-		//GUI.displayChampions(challengers.get(0), challengers.get(1), challengers.get(2));
 	}
 	
 	/** Method ran by the Application constructor that builds the GUI page
@@ -102,10 +100,9 @@ public class GUIInterface extends Application
 		theStage.setTitle("Tournament Bracket");
 		// initializes the pane field
 		pane = new GridPane();
-		pane.setPadding(new Insets(10, 10, 10, 10));
-        pane.setVgap(20);
+		pane.setPadding(new Insets(10));
+        pane.setVgap(15);
         pane.setHgap(10);
-//        pane.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 		// creates a new scene containing pane
 		Scene scene = new Scene(pane, 2000, 1000, Color.DARKGRAY);
 		
@@ -171,13 +168,11 @@ public class GUIInterface extends Application
 				score1.setMaxHeight(20); 
 				score1.setMaxWidth(90);
 				score1.setPromptText("Input Score");
-//				score1.setFocusTraversable(false);
 				
 				TextField score2 = new TextField();
 				score2.setMaxHeight(20); 
 				score2.setMaxWidth(90);
 				score2.setPromptText("Input Score");
-//				score2.setFocusTraversable(false);
 				
 				HBox hbox1 = new HBox(10);
                 hbox1.getChildren().addAll(name1, score1);
@@ -194,15 +189,14 @@ public class GUIInterface extends Application
                 button.setMinWidth(175);
 				button.setOnAction(new EventHandler<ActionEvent>() 
 				{
-				    // lambda expression used to create an instance of EvenHandler
+				    // lambda expression used to create an instance of EventHandler
 					@Override
 					public void handle(ActionEvent event)
 					{
-						//System.out.println(score1.getText() + " " + score2.getText());
 						if(name1.getText().equals("TBD") || name2.getText().equals("TBD")) 
 						{
 							System.out.println("Not all teams are present yet"); // this is just a print statement
-							return;// If one of the teams in the match is not actually a team, it won't do anything.
+							return; // if one of the teams in the match is not actually a team, it won't do anything.
 						}
 						// tries to parse scores, if it can't it won't do anything
 						try 
@@ -210,21 +204,20 @@ public class GUIInterface extends Application
 						    // if team1 has higher score, they advance
 							if(Integer.parseInt(score1.getText()) > Integer.parseInt(score2.getText())) 
 							{
-								System.out.println("Team " + name1.getText() + " won.");
+//								System.out.println("Team " + name1.getText() + " won.");
 								advanceVictor(name1.getText(), allHBoxes.indexOf(hbox1));
 							} 
 							// if team2 has higher score, they advance
 							else 
 							{
-								System.out.println("Team " + name2.getText() + " won.");
+//								System.out.println("Team " + name2.getText() + " won.");
 								advanceVictor(name2.getText(), allHBoxes.indexOf(hbox2));
 							}
 						}
 						// case when the score could not be parsed
 						catch(NumberFormatException e) 
 						{
-							System.out.println("Invalid input.");
-							// button.setText("Invalid score");
+							button.setText("Please Resubmit Scores");
 							return;
 						}
 					}
@@ -256,20 +249,14 @@ public class GUIInterface extends Application
 					name2.setMinWidth(75);
 					name2.setText("TBD");
 					
-//					Label blank = new Label();
-//					blank.setText(null);
-					
 					TextField score1 = new TextField();
 					score1.setMaxHeight(20); 
 					score1.setMaxWidth(90);
 					score1.setPromptText("Input Score");
-//					score1.setFocusTraversable(false);
 					
 					TextField score2 = new TextField();
 					score2.setMaxHeight(20); 
 					score2.setMaxWidth(90);
-					score2.setPromptText("Input Score");
-//					score2.setFocusTraversable(false);
 					
 					HBox hbox1 = new HBox(10);
                     hbox1.getChildren().addAll(name1, score1);
@@ -301,21 +288,18 @@ public class GUIInterface extends Application
 							    // if team1 has higher score, they advance
 								if(Integer.parseInt(score1.getText()) > Integer.parseInt(score2.getText())) 
 								{
-									System.out.println("Team " + name1.getText() + " won.");
 									advanceVictor(name1.getText(), allHBoxes.indexOf(hbox1));
 								} 
 								// if team2 has higher score, they advance
 								else 
 								{
-									System.out.println("Team " + name2.getText() + " won.");
 									advanceVictor(name2.getText(), allHBoxes.indexOf(hbox2));
 								}
 							}
 							// case when the score could not be parsed
 							catch(NumberFormatException e) 
 							{
-								System.out.println("Invalid input.");
-								//button.setText("Invalid score");
+								button.setText("Please Resubmit Scores");
 								return;
 							}}
 					});
@@ -327,34 +311,19 @@ public class GUIInterface extends Application
                     
                     GridPane.setConstraints(vbox, i + 1, j);
                     pane.getChildren().add(vbox);
-					
-	//				if(j == 0) {
-	//					Label upperBlank = new Label();
-	//					upperBlank.setText(null);
-	//					upperBlank.setMinHeight((i + 2) * 120);
-	//					vbox.getChildren().add(upperBlank);
-	//				}
-//					
-//					vbox.getChildren().add(hbox1);
-//					vbox.getChildren().add(hbox2);
-//					vbox.getChildren().add(blank);
-//					
-//					pane.add(vbox, i + 1, j);
 				}
 				n = n * 2;
 			}
 		}
 
-		// proof of concept button to show champions. NOT IMPLIMENTED, JUST AN EXAMPLE.
+		// button to display champions
 		VBox vbox = new VBox(10);
 		Button finalButton = new Button("Show Champions");
-		
 		finalButton.setOnAction(new EventHandler<ActionEvent>() 
 		{
 			@Override
 			public void handle(ActionEvent event) 
 			{    
-			    //currently just displays first 3 teams, which is why it crashes.
 				displayChampions(first, second, third);
 			}
 		});
