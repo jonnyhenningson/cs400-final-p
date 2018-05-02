@@ -23,7 +23,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -102,6 +105,7 @@ public class GUIInterface extends Application
 		pane.setPadding(new Insets(10, 10, 10, 10));
         pane.setVgap(20);
         pane.setHgap(10);
+//        pane.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 		// creates a new scene containing pane
 		Scene scene = new Scene(pane, 2000, 1000, Color.DARKGRAY);
 		
@@ -227,6 +231,8 @@ public class GUIInterface extends Application
 				});
 				
 				VBox vbox = new VBox(10);
+				vbox.setPadding(new Insets(7));
+				vbox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
                 vbox.getChildren().addAll(hbox1, button, hbox2);
                 
                 GridPane.setConstraints(vbox, 0, i);
@@ -315,6 +321,8 @@ public class GUIInterface extends Application
 					});
 					
 					VBox vbox = new VBox(10);
+					vbox.setPadding(new Insets(7));
+					vbox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
                     vbox.getChildren().addAll(hbox1, button, hbox2);
                     
                     GridPane.setConstraints(vbox, i + 1, j);
