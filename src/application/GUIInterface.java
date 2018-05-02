@@ -421,7 +421,8 @@ public class GUIInterface extends Application
             
             // there are only two teams, so there is no third place team
             String third = "No third place team";
-			
+
+            displayChampions(first,second,third);
             return; 
 		}
 		else 
