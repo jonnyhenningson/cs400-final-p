@@ -509,44 +509,51 @@ public class GUIInterface extends Application
 	{
 		Label champion = new Label();
         champion.setAlignment(Pos.CENTER);
-        champion.setMinWidth(250);
-		champion.setText(" Tournament Champion ");
+        champion.setMinWidth(100);
+		champion.setText("Tournament Champion:");
 		
 		Label championName = new Label();
         championName.setAlignment(Pos.CENTER);
-		championName.setMaxWidth(250);		
+		championName.setMaxWidth(100);		
 		championName.setText(first);
 	
 		Label secondPlace = new Label();
         secondPlace.setAlignment(Pos.CENTER);
-        secondPlace.setMinWidth(250);
-		secondPlace.setText(" Second Place ");
+        secondPlace.setMinWidth(100);
+		secondPlace.setText("Second Place:");
 		
 		Label secondName = new Label();
         secondName.setAlignment(Pos.CENTER);
-		secondName.setMaxWidth(250);		
+		secondName.setMaxWidth(100);		
 		secondName.setText(second);
 		
 		Label thirdPlace = new Label();
         thirdPlace.setAlignment(Pos.CENTER);
-        thirdPlace.setMinWidth(250);
-		thirdPlace.setText(" Third Place ");
+        thirdPlace.setMinWidth(100);
+		thirdPlace.setText("Third Place:");
 		
 		Label thirdName = new Label();
         thirdName.setAlignment(Pos.CENTER);
-		thirdName.setMaxWidth(250);		
+		thirdName.setMaxWidth(100);		
 		thirdName.setText(third);
 		
-		VBox vbox = new VBox(10);
-		vbox.getChildren().add(champion);
-		vbox.getChildren().add(championName);
-		vbox.getChildren().add(secondPlace);
-		vbox.getChildren().add(secondName);
-		vbox.getChildren().add(thirdPlace);
-		vbox.getChildren().add(thirdName);
+		HBox number1 = new HBox(10);
+		number1.getChildren().addAll(champion, championName);
 		
-		pane.add(vbox, chalNum + 3, 2);
-		System.out.println("Added");
+		HBox number2 = new HBox(10);
+        number2.getChildren().addAll(secondPlace, secondName);
+		
+        HBox number3 = new HBox(10);
+        number3.getChildren().addAll(thirdPlace, thirdName);
+        
+		VBox vbox = new VBox(10);
+		vbox.setPadding(new Insets(7));
+        vbox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+        vbox.getChildren().addAll(number1, number2, number3);
+		
+        GridPane.setConstraints(vbox, chalNum + 3, 0);
+        pane.getChildren().add(vbox);
+		
 		theStage.show();
 	}
 }
