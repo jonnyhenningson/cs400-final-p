@@ -56,9 +56,6 @@ public class GUIInterface extends Application
 	private int chalNum = 0;
 	// list of all challengers, used to find where to advance and find third place finisher
 	private ArrayList<HBox> allHBoxes = new ArrayList<HBox>(16);
-	private String first;
-	private String second;
-	private String third;
 	
 	
 	/** Main method that runs the program, taking in the test file, parsing it for elements,
@@ -258,6 +255,7 @@ public class GUIInterface extends Application
 					TextField score2 = new TextField();
 					score2.setMaxHeight(20); 
 					score2.setMaxWidth(90);
+					score2.setPromptText("Input Score");
 					
 					HBox hbox1 = new HBox(10);
                     hbox1.getChildren().addAll(name1, score1);
@@ -320,17 +318,6 @@ public class GUIInterface extends Application
 
 		// button to display champions
 		VBox vbox = new VBox(10);
-		Button finalButton = new Button("Show Champions");
-		finalButton.setOnAction(new EventHandler<ActionEvent>() 
-		{
-			@Override
-			public void handle(ActionEvent event) 
-			{    
-				displayChampions(first, second, third);
-			}
-		});
-		
-		pane.add(finalButton, chalNum + 3, 0);
 		
 		if(chalNum != 0)
         {
@@ -418,7 +405,8 @@ public class GUIInterface extends Application
 		else if (chalNum == 2) 
 		{
 		    // first place is in the HBox found at the index of boxID in allHBoxes
-            first = ((Label) allHBoxes.get(boxID).getChildren().get(0)).getText();
+            String first = ((Label) allHBoxes.get(boxID).getChildren().get(0)).getText();
+            String second="";
             
             // if the last HBox in allHBoxes isn't the same as first, then it is second
             if(!((Label) allHBoxes.get(allHBoxes.size()-1).getChildren().get(0)).getText().equals(first))
@@ -432,7 +420,7 @@ public class GUIInterface extends Application
             }
             
             // there are only two teams, so there is no third place team
-            third = "No third place team";
+            String third = "No third place team";
 			
             return; 
 		}
@@ -460,7 +448,9 @@ public class GUIInterface extends Application
 	private void generateChampions(int boxID)
 	{
 	    // first place is in the HBox found at the index of boxID in allHBoxes
-        first = ((Label) allHBoxes.get(boxID).getChildren().get(0)).getText();
+        String first = ((Label) allHBoxes.get(boxID).getChildren().get(0)).getText();
+        String second="";
+        String third="";
         
         // if the last HBox in allHBoxes isn't the same as first, then it is second
         if(!((Label) allHBoxes.get(allHBoxes.size()-1).getChildren().get(0)).getText().equals(first))
@@ -501,7 +491,7 @@ public class GUIInterface extends Application
         {
             third = ((Label) thirdOptions.get(1).getChildren().get(0)).getText();
         }
-        
+        displayChampions(first,second,third);
         return;
 	}
 	
