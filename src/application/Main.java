@@ -201,28 +201,57 @@ public class Main extends Application
 					    // checks to make sure that the scores being submitted are for a valid game
 						if(name1.getText().equals("TBD") || name2.getText().equals("TBD")) 
 						{
-							System.out.println("Not all teams are present yet"); // this is just a print statement
-							return; // if one of the teams in the match is not actually a team, it won't do anything.
+							button.setText("Please Submit Scores Later");
 						}
-						// tries to parse the entered scores
-						try 
-						{   
-						    // if name1 has higher score, they advance to the next round
-							if(Integer.parseInt(score1.getText()) > Integer.parseInt(score2.getText())) 
-							{
-								advanceVictor(name1.getText(), allHBoxes.indexOf(hbox1));
-							} 
-							// otherwise name2 advances to the next round
-							else 
-							{
-								advanceVictor(name2.getText(), allHBoxes.indexOf(hbox2));
-							}
-						}
-						// case when the score could not be parsed
-						catch(NumberFormatException e) 
+						else
 						{
-							button.setText("Please Resubmit Scores");
-							return;
+						    // stores the scores entered by the user
+						    String stringScore1 = score1.getText();
+						    String stringScore2 = score2.getText();
+						    
+						    // checks to ensure that two scores were entered
+						    if(stringScore1.isEmpty() || stringScore2.isEmpty())
+						    {
+						        button.setText("Please Submit Two Scores");
+						    }
+    						
+						    // tries to parse the entered scores
+    						try 
+    						{   
+    						    // stores the parsed scores
+    						    int team1Score = Integer.parseInt(stringScore1);
+    						    int team2Score = Integer.parseInt(stringScore2);
+    						    
+    						    // scores must be positive
+    						    if(team1Score < 0 || team2Score < 0)
+    						    {
+    						        button.setText("Please Resubmit Scores");
+    						    }
+    						    // ties are not allowed in a tournament bracket
+    						    else if(team1Score == team2Score)
+    						    {
+    						        button.setText("Please Resubmit Scores");
+    						    }
+    						    // if name1 has higher score, they advance to the next round
+    						    else if(Integer.parseInt(score1.getText()) > Integer.parseInt(score2.getText())) 
+    							{
+    								advanceVictor(name1.getText(), allHBoxes.indexOf(hbox1));
+    								button.setText("Scores Submitted");
+    								button.setDisable(true);
+    							} 
+    							// otherwise name2 advances to the next round
+    							else 
+    							{
+    								advanceVictor(name2.getText(), allHBoxes.indexOf(hbox2));
+    								button.setText("Scores Submitted");
+    								button.setDisable(true);
+    							}
+    						}
+    						// case when the score could not be parsed
+                            catch(NumberFormatException e) 
+                            {
+                                button.setText("Please Resubmit Scores");
+                            }
 						}
 					}
 				});
@@ -286,31 +315,62 @@ public class Main extends Application
 						public void handle(ActionEvent event)
 						{
 						    // checks to make sure that the scores being submitted are for a valid game
-							if(name1.getText().equals("TBD") || name2.getText().equals("TBD")) 
-							{
-								System.out.println("Not all teams are present yet"); // this is just a print statement
-								return; //if one of the teams in the match is not actually a team, it won't do anything.
-							}
-							// tries to parse the entered scores
-							try 
-							{
-							    // if name1 has higher score, they advance to the next round
-								if(Integer.parseInt(score1.getText()) > Integer.parseInt(score2.getText())) 
-								{
-									advanceVictor(name1.getText(), allHBoxes.indexOf(hbox1));
-								} 
-								// otherwise name2 advances to the next round
-								else 
-								{
-									advanceVictor(name2.getText(), allHBoxes.indexOf(hbox2));
-								}
-							}
-							// case when the score could not be parsed
-							catch(NumberFormatException e) 
-							{
-								button.setText("Please Resubmit Scores");
-								return;
-							}}
+	                        if(name1.getText().equals("TBD") || name2.getText().equals("TBD")) 
+	                        {
+	                            button.setText("Please Submit Scores Later");
+	                        }
+	                        else
+	                        {
+	                            // stores the score entered by the user
+	                            String stringScore1 = score1.getText();
+	                            String stringScore2 = score2.getText();
+	                            
+	                            // checks to ensure that two scores were entered
+	                            if(stringScore1.isEmpty() || stringScore2.isEmpty())
+	                            {
+	                                button.setText("Please Submit Two Scores");
+	                            }
+	                            
+	                            // tries to parse the entered scores
+	                            try 
+	                            {   
+	                                // stores the parsed scores
+	                                int team1Score = Integer.parseInt(stringScore1);
+	                                int team2Score = Integer.parseInt(stringScore2);
+	        
+	                                // scores must be positive
+	                                if(team1Score < 0 || team2Score < 0)
+	                                {
+	                                    button.setText("Please Resubmit Scores");
+	                                }
+	                                // ties are not allowed in a tournament bracket
+	                                else if(team1Score == team2Score)
+	                                {
+	                                    button.setText("Please Resubmit Scores");
+	                                }
+	                                // if name1 has higher score, they advance to the next round
+	                                else if(Integer.parseInt(score1.getText()) > Integer.parseInt(score2.getText())) 
+	                                {
+	                                    advanceVictor(name1.getText(), allHBoxes.indexOf(hbox1));
+	                                    button.setText("Scores Submitted");
+	                                    button.setDisable(true);
+	                                } 
+	                                // otherwise name2 advances to the next round
+	                                else 
+	                                {
+	                                    advanceVictor(name2.getText(), allHBoxes.indexOf(hbox2));
+	                                    button.setText("Scores Submitted");
+	                                    button.setDisable(true);
+	                                }
+	                            }
+	                            // case when the score could not be parsed
+	                            catch(NumberFormatException e) 
+	                            {
+	                                button.setText("Please Resubmit Scores");
+	                            }
+	                        }
+						}
+						    
 					});
 					
 					// creates a VBox to hold both team's HBox and the submit button
