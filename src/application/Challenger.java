@@ -20,7 +20,7 @@ package application;
 /**
  * Represents a challenger object in the tournament bracket
  * 
- * @author Jonny Henningson, Tyler Henning, Jerry Han
+ * @author Jonny Henningson, Tyler Henning, Jerry Han, Penghai Wei, Jichen Zhang
  *
  */
 public class Challenger implements Comparable<Challenger> 

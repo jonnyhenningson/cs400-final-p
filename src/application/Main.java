@@ -42,7 +42,7 @@ import javafx.scene.paint.Color;
 /**
  * Main class that sets up the Tournament Bracket GUI and runs the program
  * 
- * @author Jonny Henningson, Tyler Henning, Jerry Han
+ * @author Jonny Henningson, Tyler Henning, Jerry Han, Penghai Wei, Jichen Zhang 
  */
 public class Main extends Application 
 {

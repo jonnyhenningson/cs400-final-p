@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 /**
  * Represents a Tournament Bracket containing a given number of Challengers (Max 16)
  * 
- * @author Jonny Henningson, Tyler Henning, Jerry Han
+ * @author Jonny Henningson, Tyler Henning, Jerry Han, Penghai Wei, Jichen Zhang
  */
 public class TournamentBracket 
 {
