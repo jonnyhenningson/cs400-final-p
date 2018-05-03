@@ -2,7 +2,7 @@
 //
 // Title:                   Tournament Bracket
 // Due Date:                May 3rd, 2018
-// Submission Files:        Challenger.java, GUIInterface.java, TournamentBracket.java, teamList.txt 
+// Submission Files:        Challenger.java, Main.java, TournamentBracket.java, teamList.txt 
 // 
 // Course:                  CS400 Spring 2018
 // Other Sources:           None

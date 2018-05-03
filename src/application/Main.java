@@ -2,7 +2,7 @@
 //
 // Title:                   Tournament Bracket
 // Due Date:                May 3rd, 2018
-// Submission Files:        Challenger.java, GUIInterface.java, TournamentBracket.java, teamList.txt 
+// Submission Files:        Challenger.java, Main.java, TournamentBracket.java, teamList.txt 
 // 
 // Course:                  CS400 Spring 2018
 // Other Sources:           None
@@ -42,7 +42,7 @@ import javafx.scene.paint.Color;
  * 
  * @author Jonny Henningson, Tyler Henning, Jerry Han
  */
-public class GUIInterface extends Application 
+public class Main extends Application 
 {
     // the TournamentBracket object that holds the list of challengers
 	private static TournamentBracket bracket;
