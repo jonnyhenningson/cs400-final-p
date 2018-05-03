@@ -71,7 +71,7 @@ public class Main extends Application
 		// tries to read in the teams from the teams file
 		try 
 		{
-			challengers = TournamentBracket.readFile("teamList.txt");//args[0]); // teamList
+			challengers = TournamentBracket.readFile(args[0]);
 		} 
 		catch (Exception e) 
 		{
