@@ -11,14 +11,14 @@ import java.util.stream.Stream;
 
 public class TournamentBracket 
 {
-    private int numOfChallengers = 0; //Total number of challengers. Nessesary?
+//    private int numOfChallengers = 0; //Total number of challengers. Nessesary?
 	private List<Challenger> chals; //List of all challengers present for tournament
 	
 	public TournamentBracket(List<Challenger> challengers) 
 	{
 		chals = challengers;
 		Collections.sort(chals);
-		numOfChallengers = chals.size();
+//		numOfChallengers = chals.size();
 	}
 	
 	public List<Challenger> getChals() 
@@ -47,18 +47,18 @@ public class TournamentBracket
 		chalData.close(); 
 		
 		ArrayList<Challenger> retrn = new ArrayList<Challenger>();
-		int i = 0;
 		
+		int i = 0;
 		for(String info : challengers) 
 		{
 			retrn.add(new Challenger(info.trim(), i));
 			i++;
 		}
 		
-		for(Challenger c : retrn) 
-		{   //Test for correct output
-			System.out.println(c.getName() + " " + c.getSeed());
-		}
+//		for(Challenger c : retrn) 
+//		{   //Test for correct output
+//			System.out.println(c.getName() + " " + c.getSeed());
+//		}
 		
 		return retrn;
 	}

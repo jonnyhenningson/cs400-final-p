@@ -2,8 +2,8 @@ package application;
 
 public class Challenger implements Comparable<Challenger> 
 {
-	private int seed = -1;
-	private String name = null;
+	private int seed;
+	private String name;
 
 	public Challenger(String name, int seed) 
 	{
@@ -16,21 +16,20 @@ public class Challenger implements Comparable<Challenger>
 		return seed;
 	}
 
-	public void setSeed(int seed) 
-	{
-		this.seed = seed;
-	}
+//	public void setSeed(int seed) 
+//	{
+//		this.seed = seed;
+//	}
 
 	public String getName()
 	{
 		return name;
 	}
 
-	public void setName(String name) 
-	{
-		this.name = name;
-	}
-
+//	public void setName(String name) 
+//	{
+//		this.name = name;
+//	}
 	
 	@Override
 	public int compareTo(Challenger c) 

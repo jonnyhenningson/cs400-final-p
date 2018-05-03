@@ -70,7 +70,7 @@ public class GUIInterface extends Application
 		try 
 		{
 		    // get information of teams from test file.
-			challengers = TournamentBracket.readFile("test.txt"); // TODO args[0] eventually
+			challengers = TournamentBracket.readFile(args[0]); // TODO args[0] eventually
 		} 
 		catch (Exception e) 
 		{
@@ -509,33 +509,33 @@ public class GUIInterface extends Application
 	private void displayChampions(String first, String second, String third) 
 	{
 		Label champion = new Label();
-        champion.setAlignment(Pos.CENTER);
-        champion.setMinWidth(100);
-		champion.setText("Tournament Champion:");
+//        champion.setAlignment(Pos.CENTER);
+        champion.setMinWidth(150);
+		champion.setText("Tournament Champion: ");
 		
 		Label championName = new Label();
         championName.setAlignment(Pos.CENTER);
-		championName.setMaxWidth(100);		
+		championName.setMinWidth(100);		
 		championName.setText(first);
 	
 		Label secondPlace = new Label();
-        secondPlace.setAlignment(Pos.CENTER);
-        secondPlace.setMinWidth(100);
-		secondPlace.setText("Second Place:");
+//        secondPlace.setAlignment(Pos.CENTER);
+        secondPlace.setMinWidth(150);
+		secondPlace.setText("Second Place: ");
 		
 		Label secondName = new Label();
         secondName.setAlignment(Pos.CENTER);
-		secondName.setMaxWidth(100);		
+		secondName.setMinWidth(100);		
 		secondName.setText(second);
 		
 		Label thirdPlace = new Label();
-        thirdPlace.setAlignment(Pos.CENTER);
-        thirdPlace.setMinWidth(100);
-		thirdPlace.setText("Third Place:");
+//        thirdPlace.setAlignment(Pos.CENTER);
+        thirdPlace.setMinWidth(150);
+		thirdPlace.setText("Third Place: ");
 		
 		Label thirdName = new Label();
         thirdName.setAlignment(Pos.CENTER);
-		thirdName.setMaxWidth(100);		
+		thirdName.setMinWidth(100);		
 		thirdName.setText(third);
 		
 		HBox number1 = new HBox(10);
@@ -552,9 +552,9 @@ public class GUIInterface extends Application
         vbox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
         vbox.getChildren().addAll(number1, number2, number3);
 		
-        GridPane.setConstraints(vbox, chalNum + 3, 0);
+        GridPane.setConstraints(vbox, (((int)(Math.log(chalNum)/Math.log(2))) + 1), 0);
         pane.getChildren().add(vbox);
-		
+        
 		theStage.show();
 	}
 }
