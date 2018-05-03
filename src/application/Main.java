@@ -388,15 +388,6 @@ public class Main extends Application
 				n = n * 2;
 			}
 		}
-
-		// DELETE AFTER CONFIRMING THAT THIS DOES NOT DO ANYTHING
-//		// button to display champions
-//		VBox vbox = new VBox(10);
-//		
-//		if(chalNum != 0)
-//        {
-//            pane.add(vbox, (int) Math.log(chalNum) + 2, 0);
-//        }
 	
 		theStage.setScene(scene);
 		theStage.show();
@@ -408,7 +399,7 @@ public class Main extends Application
 	 * @param winner name of the team who won a match
 	 * @param boxID location of the match that took place
 	 */
-	public void advanceVictor(String winner, int boxID) 
+	private void advanceVictor(String winner, int boxID) 
 	{
 	    // case for when there are 16 challengers
 		if(chalNum == 16) 
