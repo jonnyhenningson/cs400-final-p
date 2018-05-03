@@ -1,3 +1,18 @@
+/////////////////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION ///////////////////////////////
+//
+// Title:                   Tournament Bracket
+// Due Date:                May 3rd, 2018
+// Submission Files:        Challenger.java, GUIInterface.java, TournamentBracket.java, teamList.txt 
+// 
+// Course:                  CS400 Spring 2018
+// Other Sources:           None
+// Known Bugs:              None
+//
+// Authors:                 Jonny Henningson, Zhengda (Jerry) Han, Tyler Henning
+// Emails:                  jhenningson@wisc.edu, zhan66@wisc.edu, thenning2@wisc.edu
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 package application;
 
 import java.io.IOException;
@@ -9,32 +24,43 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Represents a Tournament Bracket containing a given number of Challengers (Max 16)
+ * 
+ * @author Jonny Henningson, Tyler Henning, Jerry Han
+ */
 public class TournamentBracket 
 {
-//    private int numOfChallengers = 0; //Total number of challengers. Nessesary?
-	private List<Challenger> chals; //List of all challengers present for tournament
+    // stores a list of all Challengers present for the tournament
+	private List<Challenger> chals; 
 	
+	/**
+	 * Constructor used to initialize a new TournamentBracket object
+	 * 
+	 * @param challengers is the list of Challenger objects to be included in the bracket
+	 */
 	public TournamentBracket(List<Challenger> challengers) 
 	{
 		chals = challengers;
 		Collections.sort(chals);
-//		numOfChallengers = chals.size();
 	}
 	
+	/**
+	 * Getter method used to retrieve the list of Challengers in the bracket
+	 * 
+	 * @return the list of Challengers stored in the chals field
+	 */
 	public List<Challenger> getChals() 
 	{
 		return chals;
 	}
 
-
-	/** Currently expects information to be in format Name:Seed, !although I expect it to change.!
-	 * (Doing so should not be hard.)
-	 * Reads the information on a file and returns a list of Challenger objects
-	 * with information as shown on the file.
+	/** 
+	 * Used to read a file containing a list of the teams in the tournament bracket
 	 * 
-	 * @param fileName path to the file to be read.
-	 * @return List of all challengers.
-	 * @throws IOException if fileName is invalid path.
+	 * @param fileName is the path of the file to be read
+	 * @return list is the list of all of the challengers read in from the file
+	 * @throws IOException if fileName is an invalid path
 	 */
 	public static List<Challenger> readFile(String fileName) throws IOException 
 	{
@@ -46,19 +72,15 @@ public class TournamentBracket
 		List<String> challengers = chalData.collect(Collectors.toList());
 		chalData.close(); 
 		
+		// stores the list of Challenger objects that will eventually be returned
 		ArrayList<Challenger> retrn = new ArrayList<Challenger>();
 		
-		int i = 0;
-		for(String info : challengers) 
+		// creates a new Challenger object for each team read  
+		// in from the file and adds it to the retrn list
+		for(int i = 0; i < challengers.size(); i++)
 		{
-			retrn.add(new Challenger(info.trim(), i));
-			i++;
+		    retrn.add(new Challenger(challengers.get(i).trim(), i)); 
 		}
-		
-//		for(Challenger c : retrn) 
-//		{   //Test for correct output
-//			System.out.println(c.getName() + " " + c.getSeed());
-//		}
 		
 		return retrn;
 	}
