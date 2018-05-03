@@ -9,9 +9,9 @@
 // Known Bugs:              None
 //
 // Authors:                 Jonny Henningson, Zhengda (Jerry) Han, Tyler Henning, 
-//                          Wei Penghai, Jichen Zhang
+//                          Penghai Wei, Jichen Zhang
 // Emails:                  jhenningson@wisc.edu, zhan66@wisc.edu, thenning2@wisc.edu,
-//                          WEI EMAIL HERE, JICHEN EMAIL HERE
+//                          pwei25@wisc.edu, JICHEN EMAIL HERE
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
